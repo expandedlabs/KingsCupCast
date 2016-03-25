@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      body {
+		background-color:#000000;
+		position:absolute;
+      }
+	  
+	  .topRightCorner, .bottomLeftCorner{
+	  font-size:72px;
+	  text-align:right;
+	  margin-right:15px;
+	  vertical-align:top;
+	  }
+	  
+	  .bottomLeftCorner{
+	  position:absolute;
+	  bottom:0px;
+	  text-align:left;
+	  vertical-align:text-bottom;
+	  margin-left:15px;
+	  }
+	  
+	  .playcard{
+		position:relative;
+	    height:400PX;
+        width:280PX;
+		background-color:#FFFFFF;
+		color:#FF0000;
+		vertical-align:middle;
+		box-shadow: 5px 5px 3px #000000;
+		border-radius:15px;
+		margin:20px 100px 10px 100px;
+		opacity:1.0;
+		/*-webkit-transition: opacity 0.2s ease-in-out;*/
+		-webkit-animation-duration:1s;
+		-webkit-animation-timing-function:ease-out;
+	  }
+	  
+      .message{
+	  	background-image:url('pool_table.png');
+		padding-top:10px;
+		display:table-cell;
+        position:fixed;
+		top:0;
+		right:0;
+		bottom:0;
+		left:0;
+        text-align:center;
+		text-shadow: 1px 1px 1px #000000;
+		color:#FFFFFF;
+        border:2px solid black;
+		border-radius:25px;
+		font-family:Geneva, Times New Roman, sans-serif;
+        font-weight:bold;
+        font-size:40px;
+		margin:10px 5px;
+    }
+	
+	   .smallText
+	   {
+			margin:10px 10px;
+			
+	   		text-shadow: 1px 1px 1px #000000;
+			color:#FFFFFF;
+			font-size:28px;
+	   }
+	   	   .description
+	   {
+			left:640px;
+			bottom:100px;
+			margin:10px;
+			text-align:center;
+	   		text-shadow: 1px 1px 1px #000000;
+			color:#FFFFFF;
+			font-size:26px;
+	   }
+	   
+	@-webkit-keyframes comeInLeft
+	{
+	0% {opacity:1;}
+	1% {opacity:0;right:15px}
+	100% {opacity:1;right:0px}
+	}
+	
+	@-webkit-keyframes comeInRight
+	{
+	0% {opacity:1;}
+	1% {opacity:0;left:15px}
+	100% {opacity:1;left:0px}
+	}
+	
+	#preload-King { background: url(King.gif) no-repeat -9999px -9999px; }
+    #preload-Queen { background: url(Queen.gif) no-repeat -9999px -9999px; }
+    #preload-Jack { background: url(Jack.gif) no-repeat -9999px -9999px; }
+    </style>
+    <title>Cast Hello Text</title>
+  </head>
+  <body>
+
+    <DIV class="message">King's Cup Cast
+		<DIV style="border:1px solid black;margin:10px"></DIV>
+		<p  style="margin:auto;float:center;position:absolute:font-size:18px" id="audioLoadText">Loading audio please wait... </p>
+			<img border="0" style="margin:auto;position:fixed;right:100px;" src="beer.png" alt="KingsCastCup" id="beerCounter" width="256" height="400">
+			<DIV class="playcard" id="playcard">
+			<DIV class="topRightCorner" id="topcorner">JAK</DIV>
+			<img border="0" src="KingsCupLogo.png" alt="KingsCastCup" id="cardLogo" width="256" height="256">
+			<DIV class="bottomLeftCorner" id="bottomcorner">JK</DIV>
+			</DIV>
+			<DIV class="smallText" id="kingCounter">Kings: 0</DIV>
+			<DIV class="description" id="description">
+			Welcome to King's Cup Cast! Please be a badass responsibly!	
+			</DIV>
+	</DIV>
+
+
+	<!--<audio id="cardSound" preload="auto">
+	<source src="https://ia902502.us.archive.org/11/items/cardPlace/cardPlace.mp3" type="audio/mpeg">
+	</audio>
+	<audio id="introSound" preload="auto" autoplay>
+	<source src="https://ia902503.us.archive.org/19/items/KingsCup/KingsCup.mp3" type="audio/mpeg">
+	</audio>-->
+  <!--  <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+	<script type="text/javascript" src="BufferLoader.js"></script>-->
+    <script type="text/javascript">
+	  var context = new webkitAudioContext();
+	  var boolPlayIntro=false;
+	  
+      window.onload = function() {
+	    // load audio
+	  	initalizeAllAudio();
+        cast.receiver.logger.setLevelValue(0);
+        window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+        console.log('Starting Receiver Manager');
+        
+        // handler for the 'ready' event
+        castReceiverManager.onReady = function(event) {
+          console.log('Received Ready event: ' + JSON.stringify(event.data));
+          window.castReceiverManager.setApplicationState("Application status is ready...");
+        };
+        
+        // handler for 'senderconnected' event
+        castReceiverManager.onSenderConnected = function(event) {
+          console.log('Received Sender Connected event: ' + event.data);
+          console.log(window.castReceiverManager.getSender(event.data).userAgent);
+		  
+		  //initialize the card to be rotated to the right
+		  document.getElementById("playcard").style.webkitTransform = "rotate(2deg)";
+        };
+        
+        // handler for 'senderdisconnected' event
+        castReceiverManager.onSenderDisconnected = function(event) {
+          console.log('Received Sender Disconnected event: ' + event.data);
+          if (window.castReceiverManager.getSenders().length == 0) {
+            window.close();
+          }
+        };
+        
+        // handler for 'systemvolumechanged' event
+        castReceiverManager.onSystemVolumeChanged = function(event) {
+          console.log('Received System Volume Changed event: ' + event.data['level'] + ' ' +
+              event.data['muted']);
+        };
+
+        // create a CastMessageBus to handle messages for a custom namespace
+        window.messageBus =
+          window.castReceiverManager.getCastMessageBus(
+              'urn:x-cast:com.expandedlabs.kingscupcast');
+
+        // handler for the CastMessageBus message event
+        window.messageBus.onMessage = function(event) {
+          console.log('Message [' + event.senderId + ']: ' + event.data);
+          // display the message from the sender
+		  var parsedTempText = JSON.parse(event.data);
+		  if(parsedTempText.INITIAL === "true" && parsedTempText.soundWanted === "true")
+		  {
+			boolPlayIntro=true;
+		  }
+		  else
+		  {
+		    displayText(event.data);
+		  }
+          // inform all senders on the CastMessageBus of the incoming message event
+          // sender message listener will be invoked
+          window.messageBus.send(event.senderId, event.data);
+        }
+
+        // initialize the CastReceiverManager with an application status message
+        window.castReceiverManager.start({statusText: "Application is starting"});
+        console.log('Receiver Manager started');
+		
+      };
+	  
+	  // callback function when error occurs... right now its blank
+	  // bad bad bad!
+	  function onError()
+	  {
+	   var car = null;
+	  }
+	  
+	  var introAudioBuffer = null;
+	  var introAudioBufferNew = null;
+	  var cardPlaceBuffer = null;
+	  var disappointBuffer = null;
+	  
+	  // plays a specified audio clip stored in a buffer
+	  function playAudioClip(buffer) {
+		//Play audio clip
+		 var source = context.createBufferSource();
+		 source.buffer = buffer;
+		 source.connect(context.destination);
+		 source.start(0);
+		 console.log("Audio clip has played.");
+	  }
+	  
+	  // initialize audio entities by loading them in a buffer
+	  function initalizeAllAudio() {
+	    bufferLoader = new BufferLoader(
+		  context,
+		  [
+		    'KingsCup.mp3',
+			'cardPlace.mp3',
+			'disappoint.mp3',
+		  ],
+		  finishedLoading
+		  );
+		  
+		bufferLoader.load();
+	  }
+	  
+	  // callback function when audio has been loaded
+	  function finishedLoading(bufferList) {
+	    introAudioBufferNew = bufferList[0];
+		cardPlaceBuffer = bufferList[1];
+		disappointBuffer = bufferList[2];
+		console.log("All audio has been loaded");
+		document.getElementById("audioLoadText").disabled = true;
+		window.setTimeout(document.getElementById("audioLoadText").innerHTML = "", 3000);
+		if(boolPlayIntro)
+		  playAudioClip(introAudioBufferNew);
+	  }
+      
+      // utility function to display the text message in the input field
+      function displayText(text) {
+	  	var parsedText = JSON.parse(text); 
+        console.log(text);
+		var card = parsedText.card;
+		console.log(card);
+		document.getElementById("cardLogo").width = 256;
+		if(parsedText.type === "king")
+		{
+		  playAudioClip(disappointBuffer);
+		  document.getElementById("cardLogo").src = "King.gif";
+		  console.log("Disappointment played.");
+		}
+		else 
+		{
+		  if(parsedText.type === "jack")
+		  {
+		    document.getElementById("cardLogo").src = "Jack.gif";
+		  }
+		  else if(parsedText.type === "queen")
+		  {
+		    document.getElementById("cardLogo").src = "Queen.gif";
+			document.getElementById("cardLogo").width = 230;
+		  }
+		  else
+		  {
+		    document.getElementById("cardLogo").src = "KingsCupLogo.png";
+		  }
+		  playAudioClip(cardPlaceBuffer);
+		}
+		rotateCard();
+		animateCard();
+		
+        window.setTimeout(function(){document.getElementById("playcard").style.webkitAnimationName = '';}, 1000);
+		document.getElementById("topcorner").innerHTML=parsedText.card;
+		document.getElementById("bottomcorner").innerHTML=parsedText.card;
+		document.getElementById("topcorner").style.color=parsedText.color;
+		document.getElementById("bottomcorner").style.color=parsedText.color;
+		document.getElementById("description").innerHTML=parsedText.description;
+		document.getElementById("kingCounter").innerHTML=parsedText.kingCounter;
+        window.castReceiverManager.setApplicationState(text);
+      };
+	  
+	  var toggle=1 // Simple toggle between a rotate left/right
+	  function rotateCard()
+	  {
+	  	if(toggle === 1)
+	    {
+	      document.getElementById("playcard").style.webkitTransform = "rotate(-2deg)";
+	      window.toggle=0;
+	    }
+	    else
+	    {
+	      document.getElementById("playcard").style.webkitTransform = "rotate(2deg)";
+		  window.toggle=1;
+	    }
+	  }
+	  
+	  //DEBUG PURPOSES ONLY
+	  function buttonClickEvent()
+	  {
+	    rotateCard();
+	    animateCard();
+		//cardSound = document.getElementById("cardSound");
+		//cardSound.load();
+		//cardSound.play();
+	  };
+	  
+	  //animates card with a tilt 
+	  function animateCard()
+	  {
+		if(toggle === 1)
+		{
+	      if(document.getElementById("playcard").style.webkitAnimationName !== 'comeInRight')
+	      {
+	        document.getElementById("playcard").style.webkitAnimationName = 'comeInRight';
+		    document.getElementById("playcard").style.webkitAnimationDuration = '1s';
+		    document.getElementById("playcard").style.webkitAnimationDelay = '0s';
+	      }
+		}
+		else
+		{
+		  if(document.getElementById("playcard").style.webkitAnimationName !== 'comeInLeft')
+	      {
+	        document.getElementById("playcard").style.webkitAnimationName = 'comeInLeft';
+		    document.getElementById("playcard").style.webkitAnimationDuration = '1s';
+		    document.getElementById("playcard").style.webkitAnimationDelay = '0s';
+	      }
+		}
+	  };
+	  
+
+	 
+    </script>
+  </body>
+</html>
