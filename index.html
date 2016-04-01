@@ -9,7 +9,7 @@
 	  
 	  body:after{
 		display:none;
-		content: url(KingStatus/King0.gif) url(KingStatus/King1.gif) url(KingStatus/King2.gif) url(KingStatus/King3.gif) url(KingStatus/King4.gif) url(Queen.gif) url(King.gif) url(Jack.gif) url(KingsCupLogo.png);
+		content: url(KingsCupCast/KingStatus/King0.gif) url(KingsCupCast/KingStatus/King1.gif) url(KingsCupCast/KingStatus/King2.gif) url(KingsCupCast/KingStatus/King3.gif) url(KingsCupCast/KingStatus/King4.gif) url(KingsCupCast/Queen.gif) url(KingsCupCast/King.gif) url(KingsCupCast/Jack.gif) url(KingsCupCast/KingsCupLogo.png);
 	  }
 	  
 	  .topRightCorner, .bottomLeftCorner{
@@ -45,7 +45,7 @@
 	   }
 	  
       .message{
-	  	background-image:url('pool_table.png');
+	  	background-image:url('KingsCupCast/pool_table.png');
 		padding-top:10px;
 		display:table-cell;
         position:fixed;
@@ -106,10 +106,10 @@
 	<DIV id="titlelogo">King's Cup Cast </DIV>
 		<DIV style="border:1px solid black;margin:10px"></DIV>
 		<p  style="margin:auto;float:center;position:absolute:font-size:18px" id="audioLoadText">Loading audio please wait... </p>
-			<img border="0" style="margin:auto;position:fixed;right:200px;" src="KingStatus/King0.gif" alt="KingsCastCup" id="beerCounter" width="360" height="400">
+			<img border="0" style="margin:auto;position:fixed;right:200px;" src="KingsCupCast/KingStatus/King0.gif" alt="KingsCastCup" id="beerCounter" width="360" height="400">
 			<DIV class="playcard" id="playcard">
 			<DIV class="topRightCorner" id="topcorner">JAK</DIV>
-			<img border="0" src="KingsCupLogo.png" alt="KingsCastCup" id="cardLogo" width="236" height="210">
+			<img border="0" src="KingsCupCast/KingsCupLogo.png" alt="KingsCastCup" id="cardLogo" width="236" height="210">
 			<DIV class="bottomLeftCorner" id="bottomcorner">JK</DIV>
 			</DIV>
 			<DIV class="smallText" id="kingCounter">Kings: 0</DIV>
@@ -126,7 +126,7 @@
 	<source src="https://ia902503.us.archive.org/19/items/KingsCup/KingsCup.mp3" type="audio/mpeg">
 	</audio>-->
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
-	<script type="text/javascript" src="BufferLoader.js"></script>
+	<script type="text/javascript" src="KingsCupCast/BufferLoader.js"></script>
     <script type="text/javascript">
 	  var context = new webkitAudioContext();
 	  var boolPlayIntro=false;
@@ -223,9 +223,9 @@
 	    bufferLoader = new BufferLoader(
 		  context,
 		  [
-		    'KingsCup.mp3',
-			'cardPlace.mp3',
-			'disappoint.mp3',
+		    'KingsCupCast/KingsCup.mp3',
+			'KingsCupCast/cardPlace.mp3',
+			'KingsCupCast/disappoint.mp3',
 		  ],
 		  finishedLoading
 		  );
@@ -273,7 +273,7 @@
 			{
 			  if(isAudioLoaded)
 				playAudioClip(disappointBuffer);
-			  document.getElementById("cardLogo").src = "King.gif";
+			  document.getElementById("cardLogo").src = "KingsCupCast/King.gif";
 			  typeWatch = "king";
 			  console.log("Disappointment played.");
 			}
@@ -281,19 +281,19 @@
 			{
 			  if(parsedText.type === "jack")
 			  {
-				document.getElementById("cardLogo").src = "Jack.gif";
+				document.getElementById("cardLogo").src = "KingsCupCast/Jack.gif";
 				typeWatch = "jack";
 			  }
 			  else if(parsedText.type === "queen")
 			  {
 			    typeWatch = "queen";
-				document.getElementById("cardLogo").src = "Queen.gif";
+				document.getElementById("cardLogo").src = "KingsCupCast/Queen.gif";
 				document.getElementById("cardLogo").width = 180;
 			  }
 			  else
 			  {
 			    typeWatch = "none";
-				document.getElementById("cardLogo").src = "KingsCupLogo.png";
+				document.getElementById("cardLogo").src = "KingsCupCast/KingsCupLogo.png";
 			  }
 			}	
 		}
@@ -321,27 +321,27 @@
 	     if(kingResCounter == 0)
 		 {
 			window.kingCount = 0;
-		    document.getElementById("beerCounter").src = "KingStatus/King0.gif";
+		    document.getElementById("beerCounter").src = "KingsCupCast/KingStatus/King0.gif";
 		 }
 		 else if(kingResCounter == 1)
 		 {
 			window.kingCount = 1;
-		    document.getElementById("beerCounter").src = "KingStatus/King1.gif";
+		    document.getElementById("beerCounter").src = "KingsCupCast/KingStatus/King1.gif";
 		 }
 		 else if(kingResCounter == 2)
 		 {
 			window.kingCount = 2;
-		    document.getElementById("beerCounter").src = "KingStatus/King2.gif";
+		    document.getElementById("beerCounter").src = "KingsCupCast/KingStatus/King2.gif";
 		 }
 		 else if(kingResCounter == 3)
 		 {
 			window.kingCount = 3;
-		    document.getElementById("beerCounter").src = "KingStatus/King3.gif";
+		    document.getElementById("beerCounter").src = "KingsCupCast/KingStatus/King3.gif";
 		 }
 		 else if(kingResCounter == 4)
 		 {
 			window.kingCount = 4;
-		    document.getElementById("beerCounter").src = "KingStatus/King4.gif";
+		    document.getElementById("beerCounter").src = "KingsCupCast/KingStatus/King4.gif";
 		 }
 	  };
 	  
