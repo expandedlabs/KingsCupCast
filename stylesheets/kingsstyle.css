@@ -1,0 +1,103 @@
+body {
+    background-color: #000000;
+    position: absolute;
+}
+
+body:after {
+    display: none;
+    content: url(../KingsCupCast/KingStatus/King0.gif) url(../KingsCupCast/KingStatus/King1.gif) url(../KingsCupCast/KingStatus/King2.gif) url(../KingsCupCast/KingStatus/King3.gif) url(../KingsCupCast/KingStatus/King4.gif) url(../KingsCupCast/Queen.gif) url(../KingsCupCast/King.gif) url(../KingsCupCast/Jack.gif) url(../KingsCupCast/KingsCupLogo.png);
+}
+
+.topRightCorner,
+.bottomLeftCorner {
+    font-size: 72px;
+    text-align: right;
+    margin-right: 15px;
+    vertical-align: top;
+}
+
+.bottomLeftCorner {
+    position: absolute;
+    bottom: 0px;
+    text-align: left;
+    vertical-align: text-bottom;
+    margin-left: 15px;
+    margin-top: 20px;
+}
+
+.playcard {
+    position: relative;
+    height: 400PX;
+    width: 260PX;
+    background-color: #FFFFFF;
+    color: #FF0000;
+    vertical-align: middle;
+    box-shadow: 5px 5px 3px #000000;
+    border-radius: 15px;
+    margin: 20px 100px 10px 200px;
+    opacity: 1.0;
+    /*-webkit-transition: opacity 0.2s ease-in-out;*/
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: ease-out;
+}
+
+.message {
+    background-image: url('../KingsCupCast/pool_table.png');
+    padding-top: 10px;
+    display: table-cell;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    text-shadow: 1px 1px 1px #000000;
+    color: #FFFFFF;
+    border: 2px solid black;
+    border-radius: 25px;
+    font-family: Geneva, Times New Roman, sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    margin: 10px 5px;
+}
+
+.smallText {
+    margin: 10px 10px;
+    text-shadow: 1px 1px 1px #000000;
+    color: #FFFFFF;
+    font-size: 28px;
+}
+
+.description {
+    left: 640px;
+    bottom: 100px;
+    margin: 10px;
+    text-align: center;
+    text-shadow: 1px 1px 1px #000000;
+    color: #FFFFFF;
+    font-size: 28px;
+}
+
+@-webkit-keyframes comeInLeft {
+    0% {
+        opacity: 1;
+    }
+    1% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes comeInRight {
+    0% {
+        opacity: 1;
+    }
+    1% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
