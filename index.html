@@ -128,7 +128,7 @@
     <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
 	<script type="text/javascript" src="KingsCupCast/BufferLoader.js"></script>
     <script type="text/javascript">
-	  var context = new webkitAudioContext();
+	  var context = window.AudioContext || window.webkitAudioContext;
 	  var boolPlayIntro=false;
 	  
       window.onload = function() {
