@@ -1,2 +1,2 @@
 # KingsCupCast
-https://expandedlabs.github.io
+https://expandedlabs.github.io/KingsCupCast/
